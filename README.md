@@ -183,14 +183,14 @@ Full details in [`Bug Reports/bug_reports.md`](./Bug%20Reports/bug_reports.md).
 
 ## Performance Summary
 
-Tested with Google Lighthouse (Chrome DevTools) on a simulated Fast 4G connection.
+Tested with Google Lighthouse 13.3.0 on an emulated Moto G Power with Slow 4G throttling.
 
 | Metric | Score | Rating |
 |--------|-------|--------|
-| Performance | 54/100 | 🟡 Needs Improvement |
-| Accessibility | 78/100 | 🟡 Needs Improvement |
-| Best Practices | 92/100 | 🟢 Good |
-| SEO | 88/100 | 🟢 Good |
+| Performance | 31/100 | 🔴 Poor |
+| Accessibility | 92/100 | 🟢 Good |
+| Best Practices | 58/100 | 🔴 Poor |
+| SEO | 92/100 | 🟢 Good |
 
 Full report in [`Performance Report/performance_report.md`](./Performance%20Report/performance_report.md).
 
@@ -211,4 +211,4 @@ Full report in [`Performance Report/performance_report.md`](./Performance%20Repo
 
 ## Author
 
-**Immaculata Chepkirui**  
+**Immaculata Chepkirui**  git
