@@ -56,10 +56,10 @@ def test_homepage_hero_banner_visible(page):
 
 def test_homepage_category_nav_visible(page):
     """TC-003: Key category nav links exist on the page."""
-    page.goto(BASE_URL, wait_until="networkidle")
+    page.goto(BASE_URL, wait_until="domcontentloaded")
+    page.wait_for_timeout(3000)
     dismiss_overlays(page)
 
-    # Match by href — reliable regardless of text or image rendering
     phones = page.locator("a[href*='/phones-tablets/']")
     fashion = page.locator("a[href*='/category-fashion'], a[href*='/fashion']")
 
@@ -69,7 +69,8 @@ def test_homepage_category_nav_visible(page):
 
 def test_homepage_logo_links_to_homepage(page):
     """TC-028: Clicking the Jumia logo returns to homepage."""
-    page.goto(BASE_URL + "/phones-tablets/", wait_until="networkidle")
+    page.goto(BASE_URL + "/phones-tablets/", wait_until="domcontentloaded")
+    page.wait_for_timeout(2000)
     dismiss_overlays(page)
 
     logo = page.locator(
@@ -77,5 +78,6 @@ def test_homepage_logo_links_to_homepage(page):
         "a[class*='logo']"
     ).first
     logo.click()
-    page.wait_for_load_state("networkidle")
+    page.wait_for_load_state("domcontentloaded")
+    page.wait_for_timeout(1000)
     assert BASE_URL in page.url
