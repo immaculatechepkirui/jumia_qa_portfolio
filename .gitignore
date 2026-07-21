@@ -1,0 +1,5 @@
+Playwright/venv/
+Playwright/screenshots/
+__pycache__/
+*.pyc
+.pytest_cache/
