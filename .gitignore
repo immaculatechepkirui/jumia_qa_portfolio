@@ -3,3 +3,4 @@ Playwright/screenshots/
 __pycache__/
 *.pyc
 .pytest_cache/
+Playwright/tests/__pycache__/

@@ -27,7 +27,7 @@
                   "});",
                   "",
                   "pm.test('Response time is acceptable', function () {",
-                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
                   "});",
                   "",
                   "pm.test('Response contains HTML content', function () {",
@@ -46,8 +46,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/catalog/?q=samsung",
-              "host": ["{{base_url}}"],
-              "path": ["catalog", ""],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "catalog",
+                ""
+              ],
               "query": [
                 {
                   "key": "q",
@@ -85,8 +90,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/catalog/?q=",
-              "host": ["{{base_url}}"],
-              "path": ["catalog", ""],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "catalog",
+                ""
+              ],
               "query": [
                 {
                   "key": "q",
@@ -123,8 +133,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/catalog/?q=xyznonexistentproduct999abc",
-              "host": ["{{base_url}}"],
-              "path": ["catalog", ""],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "catalog",
+                ""
+              ],
               "query": [
                 {
                   "key": "q",
@@ -162,8 +177,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/catalog/?q=phone&price=10000-30000",
-              "host": ["{{base_url}}"],
-              "path": ["catalog", ""],
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "catalog",
+                ""
+              ],
               "query": [
                 {
                   "key": "q",
@@ -204,6 +224,13 @@
                   "",
                   "pm.test('Product page contains Add to Cart', function () {",
                   "    pm.expect(pm.response.text()).to.include('Add to Cart');",
+                  "});",
+                  "",
+                  "pm.test('Product page contains product identifier', function () {",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(body).to.satisfy(function(b) {",
+                  "        return b.includes('add-to-cart') || b.includes('addToCart') || b.includes('buyNow') || b.includes('Samsung');",
+                  "    }, 'Expected product identifiers in page HTML');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -214,8 +241,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/samsung-galaxy-a16-6.7-hd-4gb-ram-128gb-dual-sim-50mp-5000mah-black-free-gifts-airpods-smart-watch-powerbank-297282814.html",
-              "host": ["{{base_url}}"],
-              "path": ["samsung-galaxy-a16-6.7-hd-4gb-ram-128gb-dual-sim-50mp-5000mah-black-free-gifts-airpods-smart-watch-powerbank-297282814.html"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "samsung-galaxy-a16-6.7-hd-4gb-ram-128gb-dual-sim-50mp-5000mah-black-free-gifts-airpods-smart-watch-powerbank-297282814.html"
+              ]
             },
             "description": "TC-011: Product detail page loads with price and Add to Cart button."
           }
@@ -247,8 +278,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/phones-tablets/",
-              "host": ["{{base_url}}"],
-              "path": ["phones-tablets", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "phones-tablets",
+                ""
+              ]
             },
             "description": "TC-027: Phones & Tablets category page loads with product listings."
           }
@@ -276,8 +312,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/flash-sales/",
-              "host": ["{{base_url}}"],
-              "path": ["flash-sales", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "flash-sales",
+                ""
+              ]
             },
             "description": "TC-039: Flash Sales page loads successfully."
           }
@@ -318,8 +359,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/",
-              "host": ["{{base_url}}"],
-              "path": [""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
             },
             "description": "TC-001: Homepage returns 200 and contains Jumia branding."
           }
@@ -347,8 +392,12 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/this-page-does-not-exist-xyz-123",
-              "host": ["{{base_url}}"],
-              "path": ["this-page-does-not-exist-xyz-123"]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "this-page-does-not-exist-xyz-123"
+              ]
             },
             "description": "TC-047: Non-existent URL returns 404, not a 500 server error."
           }
@@ -376,8 +425,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/sp-help/",
-              "host": ["{{base_url}}"],
-              "path": ["sp-help", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "sp-help",
+                ""
+              ]
             },
             "description": "TC-043: Help Center page loads successfully."
           }
@@ -405,8 +459,13 @@
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/cart/",
-              "host": ["{{base_url}}"],
-              "path": ["cart", ""]
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cart",
+                ""
+              ]
             },
             "description": "TC-017: Cart page loads without server error for unauthenticated users."
           }
