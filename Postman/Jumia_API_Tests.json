@@ -1,0 +1,417 @@
+{
+  "info": {
+    "name": "Jumia Kenya — API Tests",
+    "description": "API test collection for Jumia Kenya (jumia.co.ke). Tests cover search, product catalog, product detail, cart, and navigation endpoints captured during exploratory testing.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://www.jumia.co.ke",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Search - Valid keyword (samsung)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test('Response contains HTML content', function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html');",
+                  "});",
+                  "",
+                  "pm.test('Response body contains search term', function () {",
+                  "    pm.expect(pm.response.text()).to.include('samsung');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/catalog/?q=samsung",
+              "host": ["{{base_url}}"],
+              "path": ["catalog", ""],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "samsung"
+                }
+              ]
+            },
+            "description": "TC-005: Search for a valid keyword. Expects 200 response with relevant results."
+          }
+        },
+        {
+          "name": "Search - Empty keyword",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 or 302', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "",
+                  "pm.test('Response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test('No server error returned', function () {",
+                  "    pm.expect(pm.response.code).to.not.equal(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/catalog/?q=",
+              "host": ["{{base_url}}"],
+              "path": ["catalog", ""],
+              "query": [
+                {
+                  "key": "q",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "TC-006: Empty search query. Should not return a 500 error."
+          }
+        },
+        {
+          "name": "Search - Non-existent product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response body indicates no results', function () {",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(body).to.satisfy(function(b) {",
+                  "        return b.includes('No results') || b.includes('no results') || b.includes('0 results');",
+                  "    }, 'Expected no-results message in response');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/catalog/?q=xyznonexistentproduct999abc",
+              "host": ["{{base_url}}"],
+              "path": ["catalog", ""],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "xyznonexistentproduct999abc"
+                }
+              ]
+            },
+            "description": "TC-007: Search for a term that returns no results. Expects a no-results message."
+          }
+        },
+        {
+          "name": "Search - Price filter applied",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(6000);",
+                  "});",
+                  "",
+                  "pm.test('Response contains product listings', function () {",
+                  "    pm.expect(pm.response.text()).to.include('KSh');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/catalog/?q=phone&price=10000-30000",
+              "host": ["{{base_url}}"],
+              "path": ["catalog", ""],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "phone"
+                },
+                {
+                  "key": "price",
+                  "value": "10000-30000"
+                }
+              ]
+            },
+            "description": "TC-031: Price range filter. Verifies filtered results still return valid product listings."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product Pages",
+      "item": [
+        {
+          "name": "Product Detail - Samsung Galaxy A16",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test('Product page contains price in KSh', function () {",
+                  "    pm.expect(pm.response.text()).to.include('KSh');",
+                  "});",
+                  "",
+                  "pm.test('Product page contains Add to Cart', function () {",
+                  "    pm.expect(pm.response.text()).to.include('Add to Cart');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/samsung-galaxy-a16-6.7-hd-4gb-ram-128gb-dual-sim-50mp-5000mah-black-free-gifts-airpods-smart-watch-powerbank-297282814.html",
+              "host": ["{{base_url}}"],
+              "path": ["samsung-galaxy-a16-6.7-hd-4gb-ram-128gb-dual-sim-50mp-5000mah-black-free-gifts-airpods-smart-watch-powerbank-297282814.html"]
+            },
+            "description": "TC-011: Product detail page loads with price and Add to Cart button."
+          }
+        },
+        {
+          "name": "Category Page - Phones and Tablets",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time is acceptable', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test('Category page contains products', function () {",
+                  "    pm.expect(pm.response.text()).to.include('KSh');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/phones-tablets/",
+              "host": ["{{base_url}}"],
+              "path": ["phones-tablets", ""]
+            },
+            "description": "TC-027: Phones & Tablets category page loads with product listings."
+          }
+        },
+        {
+          "name": "Flash Sales Page",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Flash sales page loads', function () {",
+                  "    pm.expect(pm.response.text()).to.include('Flash');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/flash-sales/",
+              "host": ["{{base_url}}"],
+              "path": ["flash-sales", ""]
+            },
+            "description": "TC-039: Flash Sales page loads successfully."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Navigation and Error Handling",
+      "item": [
+        {
+          "name": "Homepage loads",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response time under 10s', function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(10000);",
+                  "});",
+                  "",
+                  "pm.test('Response is HTML', function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html');",
+                  "});",
+                  "",
+                  "pm.test('Response contains Jumia branding', function () {",
+                  "    pm.expect(pm.response.text()).to.include('Jumia');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            },
+            "description": "TC-001: Homepage returns 200 and contains Jumia branding."
+          }
+        },
+        {
+          "name": "404 - Non-existent page",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test('Response is not a 500 server error', function () {",
+                  "    pm.expect(pm.response.code).to.not.equal(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/this-page-does-not-exist-xyz-123",
+              "host": ["{{base_url}}"],
+              "path": ["this-page-does-not-exist-xyz-123"]
+            },
+            "description": "TC-047: Non-existent URL returns 404, not a 500 server error."
+          }
+        },
+        {
+          "name": "Help Center page",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Help center content loads', function () {",
+                  "    pm.expect(pm.response.text()).to.include('Help');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/sp-help/",
+              "host": ["{{base_url}}"],
+              "path": ["sp-help", ""]
+            },
+            "description": "TC-043: Help Center page loads successfully."
+          }
+        },
+        {
+          "name": "Cart page - unauthenticated",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200 or 302', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "",
+                  "pm.test('No server error', function () {",
+                  "    pm.expect(pm.response.code).to.not.equal(500);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/cart/",
+              "host": ["{{base_url}}"],
+              "path": ["cart", ""]
+            },
+            "description": "TC-017: Cart page loads without server error for unauthenticated users."
+          }
+        }
+      ]
+    }
+  ]
+}
