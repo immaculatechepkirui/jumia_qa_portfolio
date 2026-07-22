@@ -149,4 +149,3 @@ Full analysis and recommendations in [Performance Report](./Performance%20Report
 
 **Immaculata Chepkirui**
 QA Engineer
-[GitHub](https://github.com/immaculatechepkirui)
